@@ -9,6 +9,7 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')))
 
 /* ****Pages***** */
 const ModernDash = Loadable(lazy(() => import('../views/dashboard/Modern')));
+const MainDash = Loadable(lazy(() => import('../views/dashboard/Main')));
 const EcommerceDash = Loadable(lazy(() => import('../views/dashboard/Ecommerce')));
 
 /* ****Apps***** */
@@ -157,9 +158,10 @@ const Router = [
     path: '/',
     element: <FullLayout />,
     children: [
-      { path: '/', element: <Navigate to="/dashboards/modern" /> },
-      { path: '/dashboards/modern', exact: true, element: <ModernDash /> },
-      { path: '/dashboards/ecommerce', exact: true, element: <EcommerceDash /> },
+      { path: '/', element: <Navigate to="/dashboards/main" /> },
+      { path: '/dashboards/main', element: <MainDash /> },
+      { path: '/dashboards/modern', element: <ModernDash /> },
+      { path: '/dashboards/ecommerce', element: <EcommerceDash /> },
       { path: '/apps/chats', element: <Chats /> },
       { path: '/apps/notes', element: <Notes /> },
       { path: '/apps/calendar', element: <Calendar /> },

@@ -33,7 +33,7 @@ const Banner = () => {
                 },
               }}
             >
-              Get to know Modernize Dashboard Template
+              Get to know WalletQ Dashboard Template
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
               <Button variant="contained" size="large" component={Link} to="/auth/register">
@@ -47,7 +47,7 @@ const Banner = () => {
           <Grid size={{ xs: 12, lg: 5 }} display="flex" alignItems="center">
             <Typography lineHeight={1.9}>
               Do you need a highly customizable and developer friendly premium next.js admin
-              template packed with numerous features? Modernize React Admin Template has everything
+              template packed with numerous features? WalletQ React Admin Template has everything
               you need. This bootstrap based admin template is designed in accordance with industry
               standards and best practices to provide you.
             </Typography>

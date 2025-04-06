@@ -16,7 +16,8 @@ import {
   IconButton,
   ListItemIcon,
   AvatarGroup,
-  Box, Stack
+  Box,
+  Stack,
 } from '@mui/material';
 import BlankCard from '../shared/BlankCard';
 import img1 from 'src/assets/images/profile/user-1.jpg';
@@ -26,8 +27,6 @@ import img4 from 'src/assets/images/profile/user-4.jpg';
 import img5 from 'src/assets/images/profile/user-5.jpg';
 import img6 from 'src/assets/images/profile/user-6.jpg';
 import { IconDotsVertical, IconEdit, IconPlus, IconTrash } from '@tabler/icons';
-
-
 
 const rows = [
   {
@@ -74,7 +73,7 @@ const rows = [
     status: 'pending',
     avatar: img6,
     name: 'Isabel Vasquez',
-    project: 'Modernize admin',
+    project: 'WalletQ admin',
     percent: 32,
     users: [{ img: img2 }, { img: img4 }],
   },
@@ -147,14 +146,14 @@ const Table2 = () => {
                         row.status == 'active'
                           ? (theme) => theme.palette.primary.light
                           : row.status == 'cancel'
-                            ? (theme) => theme.palette.error.light
-                            : (theme) => theme.palette.success.light,
+                          ? (theme) => theme.palette.error.light
+                          : (theme) => theme.palette.success.light,
                       color:
                         row.status == 'active'
                           ? (theme) => theme.palette.primary.main
                           : row.status == 'cancel'
-                            ? (theme) => theme.palette.error.main
-                            : (theme) => theme.palette.success.main,
+                          ? (theme) => theme.palette.error.main
+                          : (theme) => theme.palette.success.main,
                     }}
                   />
                 </TableCell>

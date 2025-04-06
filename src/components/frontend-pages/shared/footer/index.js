@@ -205,7 +205,7 @@ const Footer = () => {
           <Stack direction="row" gap={1} alignItems="center">
             <img src={LogoIcon} width={20} height={20} alt="logo" />
             <Typography variant="body1" fontSize="15px">
-              All rights reserved by Modernize.{' '}
+              All rights reserved by WalletQ.{' '}
             </Typography>
           </Stack>
           <Typography variant="body1" fontSize="15px">

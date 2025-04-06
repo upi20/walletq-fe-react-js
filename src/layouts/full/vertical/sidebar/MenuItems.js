@@ -56,6 +56,7 @@ import {
   IconChartPpf,
   IconChartArcs3,
   IconListTree,
+  IconHome
 } from '@tabler/icons-react';
 
 const Menuitems = [
@@ -64,6 +65,13 @@ const Menuitems = [
     subheader: 'Home',
   },
 
+  {
+    id: uniqueId(),
+    title: 'Main',
+    icon: IconHome,
+    href: '/dashboards/main',
+    chipColor: 'secondary',
+  },
   {
     id: uniqueId(),
     title: 'Modern',

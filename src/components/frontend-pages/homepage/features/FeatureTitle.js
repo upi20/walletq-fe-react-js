@@ -7,7 +7,7 @@ const FeatureTitle = () => {
     <Grid container spacing={3} justifyContent="center">
       <Grid size={{ xs: 12, lg: 6 }} textAlign="center">
         <Typography variant="body1">
-          Introducing Modernize's Light & Dark Skins,{' '}
+          Introducing WalletQ's Light & Dark Skins,{' '}
           <Box fontWeight={500} component="span">
             Exceptional Dashboards
           </Box>

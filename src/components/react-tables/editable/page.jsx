@@ -59,7 +59,7 @@ export const basicsTableData = [
     status: 'pending',
     avatar: img3,
     name: 'Isabel Vasquez',
-    project: 'Modernize admin',
+    project: 'WalletQ admin',
     percent: 32,
   },
   {

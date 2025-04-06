@@ -28,7 +28,7 @@ const featuresData = [
   {
     icon: <IconWand width={40} height={40} strokeWidth={1.5} />,
     title: '6 Theme Colors',
-    subtext: 'We have included 6 pre-defined Theme Colors with Modernize Admin.',
+    subtext: 'We have included 6 pre-defined Theme Colors with WalletQ Admin.',
   },
   {
     icon: <IconShieldLock width={40} height={40} strokeWidth={1.5} />,
@@ -43,12 +43,12 @@ const featuresData = [
   {
     icon: <IconAdjustments width={40} height={40} strokeWidth={1.5} />,
     title: '45+ UI Components',
-    subtext: 'Almost 45+ UI Components being given with Modernize Admin Pack.',
+    subtext: 'Almost 45+ UI Components being given with WalletQ Admin Pack.',
   },
   {
     icon: <IconPresentation width={40} height={40} strokeWidth={1.5} />,
     title: '4+ Frontend Pages',
-    subtext: 'We have added useful frontend pages with Modernize Admin',
+    subtext: 'We have added useful frontend pages with WalletQ Admin',
   },
   {
     icon: <IconTag width={40} height={40} strokeWidth={1.5} />,
@@ -63,7 +63,7 @@ const featuresData = [
   {
     icon: <IconDiamond width={40} height={40} strokeWidth={1.5} />,
     title: '3400+ Font Icons',
-    subtext: 'Lots of Icon Fonts are included here in the package of Modernize Admin.',
+    subtext: 'Lots of Icon Fonts are included here in the package of WalletQ Admin.',
   },
   {
     icon: <IconDatabase width={40} height={40} strokeWidth={1.5} />,

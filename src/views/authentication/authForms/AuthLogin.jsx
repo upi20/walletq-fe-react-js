@@ -1,21 +1,19 @@
-import React from 'react';
-import { Box, Typography, Button, Divider } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, Button, Stack } from '@mui/material';
+import { Link } from 'react-router';
+
+import CustomCheckbox from '../../../components/forms/theme-elements/CustomCheckbox';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../../components/forms/theme-elements/CustomFormLabel';
-import { Stack } from '@mui/system';
-import AuthSocialButtons from './AuthSocialButtons';
-import { useState } from 'react';
-import axiosServices from '../../../utils/axios';
-import { random } from 'lodash';
 import { useAuth } from '../../../hook/useAuth';
+import axiosServices from '../../../utils/axios';
 import { useNavigate } from 'react-router-dom';
 
-function AuthRegister({ title, subtitle, subtext }) {
+const AuthLogin = ({ title, subtitle, subtext }) => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [name, setName] = useState('Isep Lutpi Nur');
-  const [email, setEmail] = useState(random(100, 999) + 'upi@gmail.com');
-  const [password, setPassword] = useState('12345678');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
@@ -30,19 +28,17 @@ function AuthRegister({ title, subtitle, subtext }) {
     setLoading(true);
     setMessage(null);
     try {
-      const response = await axiosServices.post('/auth/register', {
-        name,
+      const response = await axiosServices.post('/auth/login', {
         email,
         password,
-        password_confirmation: password,
       });
       setLoading(false);
       login(response.data.data.token);
 
-      setMessage('✅ Registrasi berhasil!');
+      setMessage('✅ Login berhasil!');
       setTimeout(() => {
         navigate('/');
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.log(error);
 
@@ -55,7 +51,7 @@ function AuthRegister({ title, subtitle, subtext }) {
         });
         setMessage(errorMessages.join(', '));
       } else {
-        setMessage('Terjadi kesalahan pada server');
+        setMessage(data.message);
       }
       return false;
     }
@@ -70,38 +66,11 @@ function AuthRegister({ title, subtitle, subtext }) {
       ) : null}
 
       {subtext}
-      <AuthSocialButtons title="Sign up with" />
 
-      <Box mt={3}>
-        <Divider>
-          <Typography
-            component="span"
-            color="textSecondary"
-            variant="h6"
-            fontWeight="400"
-            position="relative"
-            px={2}
-          >
-            or sign up with
-          </Typography>
-        </Divider>
-      </Box>
-
-      <Box>
-        <form onSubmit={handleSubmit}>
-          <Stack mb={3}>
-            <CustomFormLabel htmlFor="name">Name</CustomFormLabel>
-            <CustomTextField
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-              id="name"
-              variant="outlined"
-              fullWidth
-              required
-            />
-            <CustomFormLabel htmlFor="email">Email Adddress</CustomFormLabel>
+      <form onSubmit={handleSubmit}>
+        <Stack mb={3}>
+          <Box>
+            <CustomFormLabel htmlFor="email">Email</CustomFormLabel>
             <CustomTextField
               value={email}
               onChange={(e) => {
@@ -113,6 +82,8 @@ function AuthRegister({ title, subtitle, subtext }) {
               required
               type="email"
             />
+          </Box>
+          <Box>
             <CustomFormLabel htmlFor="password">Password</CustomFormLabel>
             <CustomTextField
               value={password}
@@ -125,7 +96,9 @@ function AuthRegister({ title, subtitle, subtext }) {
               required
               type="password"
             />
-          </Stack>
+          </Box>
+        </Stack>
+        <Box>
           <Button
             color="primary"
             variant="contained"
@@ -134,18 +107,18 @@ function AuthRegister({ title, subtitle, subtext }) {
             type="submit"
             disabled={loading}
           >
-            Sign Up
+            Sign In
           </Button>
           {message && (
             <p style={{ marginTop: '10px', color: message.startsWith('✅') ? 'green' : 'red' }}>
               {message}
             </p>
           )}
-        </form>
-      </Box>
+        </Box>
+      </form>
       {subtitle}
     </>
   );
-}
+};
 
-export default AuthRegister;
+export default AuthLogin;

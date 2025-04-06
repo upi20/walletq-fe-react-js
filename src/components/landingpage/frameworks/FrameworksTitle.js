@@ -21,7 +21,7 @@ const FrameworksTitle = () => {
             },
           }}
         >
-          Increase speed of your development and launch quickly with Modernize
+          Increase speed of your development and launch quickly with WalletQ
         </Typography>
       </Grid>
     </Grid>

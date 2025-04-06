@@ -25,9 +25,7 @@ const EcommerceDetail = Loadable(lazy(() => import('../views/apps/eCommerce/Ecom
 const EcommerceAddProduct = Loadable(lazy(() => import('../views/apps/eCommerce/EcommerceAddProduct')));
 const EcommerceEditProduct = Loadable(lazy(() => import('../views/apps/eCommerce/EcommerceEditProduct')));
 const EcomProductList = Loadable(lazy(() => import('../views/apps/eCommerce/EcomProductList')));
-const EcomProductCheckout = Loadable(
-  lazy(() => import('../views/apps/eCommerce/EcommerceCheckout')),
-);
+const EcomProductCheckout = Loadable(lazy(() => import('../views/apps/eCommerce/EcommerceCheckout')));
 const UserProfile = Loadable(lazy(() => import('../views/apps/user-profile/UserProfile')));
 const Followers = Loadable(lazy(() => import('../views/apps/user-profile/Followers')));
 const Friends = Loadable(lazy(() => import('../views/apps/user-profile/Friends')));
@@ -42,9 +40,7 @@ const Kanban = Loadable(lazy(() => import('../views/apps/kanban/Kanban')));
 const RollbaseCASL = Loadable(lazy(() => import('../views/pages/rollbaseCASL/RollbaseCASL')));
 
 const Pricing = Loadable(lazy(() => import('../views/pages/pricing/Pricing')));
-const AccountSetting = Loadable(
-  lazy(() => import('../views/pages/account-setting/AccountSetting')),
-);
+const AccountSetting = Loadable(lazy(() => import('../views/pages/account-setting/AccountSetting')));
 const Faq = Loadable(lazy(() => import('../views/pages/faq/Faq')));
 
 // widget
@@ -53,9 +49,7 @@ const WidgetBanners = Loadable(lazy(() => import('../views/widgets/banners/Widge
 const WidgetCharts = Loadable(lazy(() => import('../views/widgets/charts/WidgetCharts')));
 
 // form elements
-const MuiAutoComplete = Loadable(
-  lazy(() => import('../views/forms/form-elements/MuiAutoComplete')),
-);
+const MuiAutoComplete = Loadable(lazy(() => import('../views/forms/form-elements/MuiAutoComplete')));
 const MuiButton = Loadable(lazy(() => import('../views/forms/form-elements/MuiButton')));
 const MuiCheckbox = Loadable(lazy(() => import('../views/forms/form-elements/MuiCheckbox')));
 const MuiRadio = Loadable(lazy(() => import('../views/forms/form-elements/MuiRadio')));
@@ -82,9 +76,7 @@ const SearchTable = Loadable(lazy(() => import('../views/tables/SearchTable')));
 
 //react tables
 const ReactBasicTable = Loadable(lazy(() => import('../views/react-tables/basic/page')));
-const ReactColumnVisibilityTable = Loadable(
-  lazy(() => import('../views/react-tables/columnvisibility/page')),
-);
+const ReactColumnVisibilityTable = Loadable(lazy(() => import('../views/react-tables/columnvisibility/page')));
 const ReactDenseTable = Loadable(lazy(() => import('../views/react-tables/dense/page')));
 const ReactDragDropTable = Loadable(lazy(() => import('../views/react-tables/drag-drop/page')));
 const ReactEditableTable = Loadable(lazy(() => import('../views/react-tables/editable/page')));
@@ -92,9 +84,7 @@ const ReactEmptyTable = Loadable(lazy(() => import('../views/react-tables/empty/
 const ReactExpandingTable = Loadable(lazy(() => import('../views/react-tables/expanding/page')));
 const ReactFilterTable = Loadable(lazy(() => import('../views/react-tables/filtering/page')));
 const ReactPaginationTable = Loadable(lazy(() => import('../views/react-tables/pagination/page')));
-const ReactRowSelectionTable = Loadable(
-  lazy(() => import('../views/react-tables/row-selection/page')),
-);
+const ReactRowSelectionTable = Loadable(lazy(() => import('../views/react-tables/row-selection/page')));
 const ReactSortingTable = Loadable(lazy(() => import('../views/react-tables/sorting/page')));
 const ReactStickyTable = Loadable(lazy(() => import('../views/react-tables/sticky/page')));
 
@@ -127,9 +117,7 @@ const Login2 = Loadable(lazy(() => import('../views/authentication/auth2/Login2'
 const Register = Loadable(lazy(() => import('../views/authentication/auth1/Register')));
 const Register2 = Loadable(lazy(() => import('../views/authentication/auth2/Register2')));
 const ForgotPassword = Loadable(lazy(() => import('../views/authentication/auth1/ForgotPassword')));
-const ForgotPassword2 = Loadable(
-  lazy(() => import('../views/authentication/auth2/ForgotPassword2')),
-);
+const ForgotPassword2 = Loadable(lazy(() => import('../views/authentication/auth2/ForgotPassword2')));
 const TwoSteps = Loadable(lazy(() => import('../views/authentication/auth1/TwoSteps')));
 const TwoSteps2 = Loadable(lazy(() => import('../views/authentication/auth2/TwoSteps2')));
 const Error = Loadable(lazy(() => import('../views/authentication/Error')));
@@ -254,7 +242,6 @@ const Router = [
       { path: '/react-tables/row-selection', element: <ReactRowSelectionTable /> },
       { path: '/react-tables/sorting', element: <ReactSortingTable /> },
       { path: '/react-tables/sticky', element: <ReactStickyTable /> },
-
 
       { path: '/muicharts/barcharts', element: <BarCharts /> },
       { path: '/muicharts/gaugecharts', element: <GaugeCharts /> },

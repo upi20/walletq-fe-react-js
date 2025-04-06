@@ -35,7 +35,7 @@ function AuthRegister({ title, subtitle, subtext }) {
         password_confirmation: password,
       });
       setLoading(false);
-      login(response.data.token);
+      login(response.data.data.token);
 
       setMessage('✅ Registrasi berhasil!');
     } catch (error) {

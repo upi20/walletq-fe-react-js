@@ -19,7 +19,7 @@ axiosServices.interceptors.request.use(
 );
 
 axiosServices.interceptors.response.use(
-    (response) => response.data,
+    (response) => response,
     (error) => {
         return Promise.reject(
             error.response || { message: 'Terjadi kesalahan jaringan.' }

@@ -1,13 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { storage } from '../../utils/storage';
-const _storage = storage('customizer_');
+import getStorage from '../../utils/storage';
 
+
+const storage = getStorage('customizer_');
 const getSetting = (key, value) => {
-  const get = _storage.get(key);
+  const get = storage.get(key);
   if (get !== null) {
     return get;
   } else {
-    _storage.set(key, value);
+    storage.set(key, value);
     return value;
   }
 }
@@ -35,47 +36,47 @@ export const CustomizerSlice = createSlice({
   reducers: {
     setTheme: (state, action) => {
       state.activeTheme = action.payload;
-      _storage.set('activeTheme', state.activeTheme);
+      storage.set('activeTheme', state.activeTheme);
     },
     setDarkMode: (state, action) => {
       state.activeMode = action.payload;
-      _storage.set('activeMode', state.activeMode);
+      storage.set('activeMode', state.activeMode);
     },
     setDir: (state, action) => {
       state.activeDir = action.payload;
-      _storage.set('activeDir', state.activeDir);
+      storage.set('activeDir', state.activeDir);
     },
     setLanguage: (state, action) => {
       state.isLanguage = action.payload;
-      _storage.set('isLanguage', state.isLanguage);
+      storage.set('isLanguage', state.isLanguage);
     },
     setCardShadow: (state, action) => {
       state.isCardShadow = action.payload;
-      _storage.set('isCardShadow', state.isCardShadow);
+      storage.set('isCardShadow', state.isCardShadow);
     },
     toggleSidebar: (state) => {
       state.isCollapse = !state.isCollapse;
-      _storage.set('isCollapse', state.isCollapse);
+      storage.set('isCollapse', state.isCollapse);
     },
     hoverSidebar: (state, action) => {
       state.isSidebarHover = action.payload;
-      _storage.set('isSidebarHover', state.isSidebarHover);
+      storage.set('isSidebarHover', state.isSidebarHover);
     },
     toggleMobileSidebar: (state) => {
       state.isMobileSidebar = !state.isMobileSidebar;
-      _storage.set('isMobileSidebar', state.isMobileSidebar);
+      storage.set('isMobileSidebar', state.isMobileSidebar);
     },
     toggleLayout: (state, action) => {
       state.isLayout = action.payload;
-      _storage.set('isLayout', state.isLayout);
+      storage.set('isLayout', state.isLayout);
     },
     toggleHorizontal: (state, action) => {
       state.isHorizontal = action.payload;
-      _storage.set('isHorizontal', state.isHorizontal);
+      storage.set('isHorizontal', state.isHorizontal);
     },
     setBorderRadius: (state, action) => {
       state.borderRadius = action.payload;
-      _storage.set('borderRadius', state.borderRadius);
+      storage.set('borderRadius', state.borderRadius);
     },
   },
 });

@@ -1,4 +1,4 @@
-export const storage = (prefix = '') => {
+export default (prefix = '') => {
     return {
         set: (key, value) => {
             localStorage.setItem(prefix + key, JSON.stringify(value));

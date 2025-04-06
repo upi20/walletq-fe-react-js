@@ -2,6 +2,7 @@ import React, { lazy } from 'react';
 import { Navigate, createBrowserRouter } from 'react-router';
 
 import Loadable from '../layouts/full/shared/loadable/Loadable';
+import ProtectedRoute from './ProtectedRoute';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -156,7 +157,7 @@ const SimpletreeSelection = Loadable(lazy(() => import('../views/mui-trees/simpl
 const Router = [
   {
     path: '/',
-    element: <FullLayout />,
+    element: <ProtectedRoute><FullLayout /></ProtectedRoute>,
     children: [
       { path: '/', element: <Navigate to="/dashboards/main" /> },
       { path: '/dashboards/main', element: <MainDash /> },

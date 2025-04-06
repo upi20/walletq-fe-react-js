@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button, Stack } from '@mui/material';
-import { Link } from 'react-router';
-
-import CustomCheckbox from '../../../components/forms/theme-elements/CustomCheckbox';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../../components/forms/theme-elements/CustomFormLabel';
 import { useAuth } from '../../../hook/useAuth';

@@ -9,8 +9,10 @@ import { Stack } from '@mui/system';
 import ProfileImg from 'src/assets/images/profile/user-1.jpg';
 import unlimitedImg from 'src/assets/images/backgrounds/unlimited-bg.png';
 import Scrollbar from 'src/components/custom-scroll/Scrollbar';
+import { useAuth } from '../../../../hook/useAuth';
 
 const Profile = () => {
+  const { handleLogout } = useAuth();
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
@@ -153,10 +155,9 @@ const Profile = () => {
                 </Box>
               </Box>
               <Button
-                to="/auth/login"
                 variant="outlined"
                 color="primary"
-                component={Link}
+                onClick={handleLogout}
                 fullWidth
               >
                 Logout

@@ -43,7 +43,7 @@ const TopCards = () => {
         return (
           <Grid size={{ xs: 12, sm: 4, lg: 3 }} key={index}>
             <Box bgcolor={getColor(index)} textAlign="center" padding={2}>
-              <Avatar bgcolor="white" sx={{ width: 40, height: 40, mx: 'auto', mb: 1 }}>
+              <Avatar sx={{ bgcolor: 'white', width: 40, height: 40, mx: 'auto', mb: 1 }}>
                 <AccountBalanceWalletIcon color="primary" fontSize="small" />
               </Avatar>
               <Typography variant="subtitle2" color="text.secondary">

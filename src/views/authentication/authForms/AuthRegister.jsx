@@ -68,11 +68,9 @@ function AuthRegister({ title, subtitle, subtext }) {
           {title}
         </Typography>
       ) : null}
-
-      {subtext}
-      <AuthSocialButtons title="Sign up with" />
-
-      <Box mt={3}>
+      New to WalletQ? Register Now
+      {/* <AuthSocialButtons title="Sign up with" /> */}
+      {/* <Box mt={3}>
         <Divider>
           <Typography
             component="span"
@@ -85,8 +83,7 @@ function AuthRegister({ title, subtitle, subtext }) {
             or sign up with
           </Typography>
         </Divider>
-      </Box>
-
+      </Box> */}
       <Box>
         <form onSubmit={handleSubmit}>
           <Stack mb={3}>

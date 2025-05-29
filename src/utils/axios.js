@@ -18,29 +18,19 @@ axiosServices.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-axiosServices.interceptors.response.use(
-    (response) => {
-        // Successful response handling
-        const { data } = response;
-        if (data.status === false) {
-            return Promise.reject({
-                ...data,
-                isApiError: true
-            });
-        }
-        return data;
-    },
+axiosServices.interceptors.response.use((response) => {
+    // Successful response handling
+    const { data } = response;
+
+    // Return the data directly since the API already wraps it properly
+    return data;
+},
     (error) => {
         // Error handling
         if (error.response) {
             // Server responded with error
-            const { status, data } = error.response;
-
-            // Handle 401 Unauthorized
-            if (status === 401) {
-                localStorage.removeItem('token');
-                window.location.href = '/auth/login';
-            }
+            const { status, data } = error.response;            // We'll let the components handle auth errors instead of redirecting here
+            // This prevents unwanted page reloads
 
             // Handle 403 Forbidden
             if (status === 403) {

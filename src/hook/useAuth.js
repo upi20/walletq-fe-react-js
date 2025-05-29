@@ -14,18 +14,21 @@ export const useAuth = () => {
         } else {
             localStorage.removeItem(TOKEN_KEY);
         }
-    };
-
-    const login = async (email, password) => {
+    }; const login = async (email, password) => {
         try {
             const response = await authAPI.login({ email, password });
-            // Pastikan response.data berisi token
-            const { token } = response.data;
+            // Response dari API berisi { data: { token, user } }
+            const token = response.data.token;
+            const user = response.data.user;
+
             if (!token) {
                 throw new Error('Token not found in response');
             }
+
             setToken(token);
-            navigate('/'); // Redirect ke dashboard
+            // TODO: simpan user data ke state jika diperlukan
+
+            navigate('/'); // Redirect ke dashboard setelah login berhasil
             return response;
         } catch (error) {
             console.error('Login failed:', error);

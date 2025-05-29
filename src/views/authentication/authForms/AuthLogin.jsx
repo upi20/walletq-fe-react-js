@@ -37,18 +37,45 @@ const AuthLogin = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      if (formik.isValid) {
-        setLoading(true);
-        try {
-          await login(values.email, values.password);
-          // Redirect akan ditangani oleh useAuth hook
-        } catch (error) {
-          console.error('Login failed:', error);
-          const message = error.response?.data?.message || 'Email atau password salah';
-          formik.setErrors({ submit: message });
-        } finally {
-          setLoading(false);
+      if (!formik.isValid) return;
+
+      setLoading(true);
+      formik.setErrors({}); // Clear previous errors
+
+      try {
+        await login(values.email, values.password);
+        // Successful login will be handled by useAuth hook
+      } catch (error) {
+        console.error('Login failed:', error);
+
+        // Handle validation errors
+        if (error.status === 422) {
+          const validationErrors = {};
+          if (error.errors) {
+            Object.entries(error.errors).forEach(([field, messages]) => {
+              if (Array.isArray(messages)) {
+                validationErrors[field] = messages[0];
+                formik.setTouched({ [field]: true }, false);
+              }
+            });
+          }
+          if (Object.keys(validationErrors).length > 0) {
+            formik.setErrors(validationErrors);
+            return;
+          }
         }
+
+        // Handle incorrect credentials
+        if (error.status === 401 || error.status === 403) {
+          formik.setErrors({ submit: 'Email atau password salah' });
+          return;
+        }
+
+        // Handle other errors
+        const message = error.message || 'Terjadi kesalahan saat login';
+        formik.setErrors({ submit: message });
+      } finally {
+        setLoading(false);
       }
     },
   });

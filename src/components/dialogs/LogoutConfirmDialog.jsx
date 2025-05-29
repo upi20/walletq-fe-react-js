@@ -18,9 +18,7 @@ const LogoutConfirmDialog = ({ open, onClose, onConfirm }) => {
       maxWidth="xs"
       fullWidth
     >
-      <DialogTitle id="logout-dialog-title">
-        Konfirmasi Logout
-      </DialogTitle>
+      <DialogTitle id="logout-dialog-title">Konfirmasi Logout</DialogTitle>
       <DialogContent>
         <Typography variant="body1" id="logout-dialog-description">
           Apakah Anda yakin ingin keluar dari aplikasi?
@@ -30,12 +28,7 @@ const LogoutConfirmDialog = ({ open, onClose, onConfirm }) => {
         <Button onClick={onClose} color="inherit">
           Batal
         </Button>
-        <Button
-          onClick={onConfirm}
-          variant="contained"
-          color="error"
-          autoFocus
-        >
+        <Button onClick={onConfirm} variant="contained" color="error" autoFocus>
           Logout
         </Button>
       </DialogActions>

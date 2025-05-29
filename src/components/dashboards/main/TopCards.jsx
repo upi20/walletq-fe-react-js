@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Paper, LinearProgress, Avatar, useTheme } from '@mui/material';
+import { Box, Typography, Paper, LinearProgress, Avatar, useTheme, Skeleton } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
 import axiosServices from '../../../utils/axios';
@@ -9,16 +9,21 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 const TopCards = () => {
   const [accounts, setAccounts] = useState([]);
   const [balance, setBalance] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const theme = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosServices.get('/user/master-data/account');
-        setBalance(response.data.data.balance);
-        setAccounts(response.data.data.accounts);
+        const response = await axiosServices.get('/auth/me');
+        setBalance(parseFloat(response.balance));
+        setAccounts(response.accounts || []);
+        setIsLoading(false);
       } catch (err) {
         console.error('Gagal fetch data:', err);
+        setError('Gagal memuat data rekening');
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -35,6 +40,37 @@ const TopCards = () => {
     ];
     return colors[index % colors.length];
   };
+
+  if (error) {
+    return (
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 12 }}>
+          <Box bgcolor={theme.palette.error.light} textAlign="center" padding={2}>
+            <Typography color="error" align="center">
+              {error}
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <Grid container spacing={2}>
+        {[1, 2, 3].map((index) => (
+          <Grid size={{ xs: 12, sm: 4, lg: 3 }} key={index}>
+            <Box bgcolor={getColor(index)} textAlign="center" padding={2}>
+              <Skeleton variant="circular" width={40} height={40} sx={{ mx: 'auto', mb: 1 }} />
+              <Skeleton variant="text" width="60%" sx={{ mx: 'auto' }} />
+              <Skeleton variant="text" width="80%" sx={{ mx: 'auto' }} height={32} />
+              <Skeleton variant="rectangular" height={8} sx={{ mt: 0.5, borderRadius: 5 }} />
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+    );
+  }
 
   return (
     <Grid container spacing={2}>

@@ -47,13 +47,13 @@ export const Profile = () => {
           </Box>
           <Box sx={{ ml: 'auto' }}>
             <Tooltip title="Logout" placement="top">              <IconButton
-                color="primary"
-                onClick={handleLogoutClick}
-                aria-label="logout"
-                size="small"
-              >
-                <IconPower size="20" />
-              </IconButton>
+              color="primary"
+              onClick={handleLogoutClick}
+              aria-label="logout"
+              size="small"
+            >
+              <IconPower size="20" />
+            </IconButton>
             </Tooltip>
             <LogoutConfirmDialog
               open={showLogoutDialog}

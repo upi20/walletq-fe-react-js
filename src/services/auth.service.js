@@ -26,6 +26,16 @@ class AuthService {
         }
     }
 
+    async me() {
+        try {
+            const response = await axiosServices.get('/auth/me');
+            return response.data;
+        } catch (error) {
+            this.handleAuthError(error);
+            throw error;
+        }
+    }
+
     async login(email, password) {
         try {
             const response = await axiosServices.post('/auth/login', {

@@ -1,18 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Box,
   Typography,
-  Button,
   Avatar,
   Stack,
   CardMedia,
   styled,
   Fab,
-  Skeleton,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import profilecover from 'src/assets/images/backgrounds/profilebg.jpg';
-import userimg from 'src/assets/images/profile/user-1.jpg';
 import {
   IconBrandDribbble,
   IconBrandFacebook,
@@ -24,8 +21,12 @@ import {
 } from '@tabler/icons';
 import ProfileTab from './ProfileTab';
 import BlankCard from '../../../shared/BlankCard';
+import { useUserData } from '../../../../hook/useUserData';
+import { formatRupiah } from '../../../../utils/formatRupiah';
 
 const ProfileBanner = () => {
+  const { userData } = useUserData(); // Use the shared context
+
   const ProfileImage = styled(Box)(() => ({
     backgroundImage: 'linear-gradient(#50b2fc,#f44c66)',
     borderRadius: '50%',
@@ -36,44 +37,44 @@ const ProfileBanner = () => {
     justifyContent: 'center',
     margin: '0 auto',
   }));
-  const [isLoading, setLoading] = React.useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <>
       <BlankCard>
-        {isLoading ? (
-          <>
-            <Skeleton variant="square" animation="wave" width="100%" height={330}></Skeleton>
-          </>
-        ) : (
-          <CardMedia component="img" image={profilecover} alt={profilecover} width="100%" />
-        )}
-        <Grid container spacing={0} justifyContent="center" alignItems="center">
-          {/* Post | Followers | Following */}
-          <Grid
-            size={{ lg: 4, xs: 12, md: 5, sm: 12 }}
-            sx={{
-              order: {
-                xs: '2',
-                sm: '2',
-                lg: '1',
-              },
-            }}
-          >
-            <Stack direction="row" textAlign="center" justifyContent="center" gap={6} m={3}>
+        <CardMedia component="img" image={profilecover} alt={profilecover} height="330" />
+        <Grid container spacing={0}>
+          <Grid size={{ xs: 12, sm: 12, lg: 4 }}>
+            <Box
+              display="flex"
+              alignItems="center"
+              textAlign="center"
+              justifyContent="center"
+              sx={{
+                mt: '-85px',
+              }}
+            >
+              <ProfileImage>
+                <Avatar
+                  src={userData.profile?.avatar || ''}
+                  alt={userData.name}
+                  sx={{
+                    borderRadius: '50%',
+                    width: '100px',
+                    height: '100px',
+                    border: '4px solid #fff',
+                  }}
+                />
+              </ProfileImage>
+            </Box>
+          </Grid>
+          <Grid size={{ xs: 12, lg: 8 }} sx={{ mt: 3 }}>
+            <Stack direction="row" justifyContent="end" spacing={2} alignItems="center">
               <Box>
                 <Typography color="text.secondary">
                   <IconFileDescription width="20" />
                 </Typography>
                 <Typography variant="h4" fontWeight="600">
-                  938
+                  {userData.profile?.posts || 0}
                 </Typography>
                 <Typography color="textSecondary" variant="h6" fontWeight={400}>
                   Posts
@@ -84,7 +85,7 @@ const ProfileBanner = () => {
                   <IconUserCircle width="20" />
                 </Typography>
                 <Typography variant="h4" fontWeight="600">
-                  3,586
+                  {userData.profile?.followers || 0}
                 </Typography>
                 <Typography color="textSecondary" variant="h6" fontWeight={400}>
                   Followers
@@ -95,7 +96,7 @@ const ProfileBanner = () => {
                   <IconUserCheck width="20" />
                 </Typography>
                 <Typography variant="h4" fontWeight="600">
-                  2,659
+                  {userData.profile?.following || 0}
                 </Typography>
                 <Typography color="textSecondary" variant="h6" fontWeight={400}>
                   Following
@@ -103,61 +104,16 @@ const ProfileBanner = () => {
               </Box>
             </Stack>
           </Grid>
-          {/* about profile */}
-          <Grid
-            size={{ lg: 4, xs: 12 }}
-            sx={{
-              order: {
-                xs: '1',
-                sm: '1',
-                lg: '2',
-              },
-            }}
-          >
-            <Box
-              display="flex"
-              alignItems="center"
-              textAlign="center"
-              justifyContent="center"
-              sx={{
-                mt: '-85px',
-              }}
-            >
-              <Box>
-                <ProfileImage>
-                  <Avatar
-                    src={userimg}
-                    alt={userimg}
-                    sx={{
-                      borderRadius: '50%',
-                      width: '100px',
-                      height: '100px',
-                      border: '4px solid #fff',
-                    }}
-                  />
-                </ProfileImage>
-                <Box mt={1}>
-                  <Typography fontWeight={600} variant="h5">
-                    Mathew Anderson
-                  </Typography>
-                  <Typography color="textSecondary" variant="h6" fontWeight={400}>
-                    Designer
-                  </Typography>
-                </Box>
-              </Box>
+          <Grid size={{ xs: 12, sm: 12, lg: 4 }}>
+            <Box textAlign="center">
+              <Typography variant="h5" fontWeight={600}>
+                {userData.name}
+              </Typography>              <Typography variant="h6" fontWeight={600} color="primary">
+                Rp {formatRupiah(userData.balance, false)}
+              </Typography>
             </Box>
           </Grid>
-          {/* friends following buttons */}
-          <Grid
-            size={{ lg: 4, xs: 12 }}
-            sx={{
-              order: {
-                xs: '3',
-                sm: '3',
-                lg: '3',
-              },
-            }}
-          >
+          <Grid size={{ lg: 4, xs: 12 }} sx={{ order: { xs: '3', sm: '3', lg: '3' } }}>
             <Stack direction={'row'} gap={2} alignItems="center" justifyContent="center" my={2}>
               <Fab size="small" color="primary" sx={{ backgroundColor: '#1877F2' }}>
                 <IconBrandFacebook size="16" />
@@ -171,13 +127,9 @@ const ProfileBanner = () => {
               <Fab size="small" color="error" sx={{ backgroundColor: '#CD201F' }}>
                 <IconBrandYoutube size="18" />
               </Fab>
-              <Button color="primary" variant="contained">
-                Add To Story
-              </Button>
             </Stack>
           </Grid>
         </Grid>
-        {/**TabbingPart**/}
         <ProfileTab />
       </BlankCard>
     </>

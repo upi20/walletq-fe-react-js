@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Typography,
@@ -14,7 +14,6 @@ import {
   Tooltip,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { authService } from '../../../services/auth.service';
 import { formatRupiah } from '../../../utils/formatRupiah';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import SortIcon from '@mui/icons-material/Sort';
@@ -24,32 +23,20 @@ import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
-const AccountsList = () => {
-  const [accounts, setAccounts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+const AccountsList = ({ accounts = [], isLoading = false }) => {
+  const [sortedAccounts, setSortedAccounts] = useState(accounts);
   const [anchorEl, setAnchorEl] = useState(null);
   const [sortConfig, setSortConfig] = useState({
     key: 'name',
     direction: 'asc',
   });
+  const [error, setError] = useState(null);
   const theme = useTheme();
 
-  useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const response = await authService.me();
-        setAccounts(response.accounts);
-        setIsLoading(false);
-      } catch (err) {
-        console.error('Failed to fetch accounts:', err);
-        setError('Gagal memuat data rekening');
-        setIsLoading(false);
-      }
-    };
-
-    fetchAccounts();
-  }, []);
+  // Update sortedAccounts when accounts prop changes
+  React.useEffect(() => {
+    setSortedAccounts(accounts);
+  }, [accounts]);
 
   const handleSortClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -81,7 +68,7 @@ const AccountsList = () => {
     const direction = sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc';
     setSortConfig({ key, direction });
 
-    const sortedAccounts = [...accounts].sort((a, b) => {
+    const newSortedAccounts = [...sortedAccounts].sort((a, b) => {
       if (key === 'name') {
         return direction === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
       }
@@ -100,7 +87,7 @@ const AccountsList = () => {
       return 0;
     });
 
-    setAccounts(sortedAccounts);
+    setSortedAccounts(newSortedAccounts);
     handleSortClose();
   };
 
@@ -135,6 +122,11 @@ const AccountsList = () => {
     return colors[index % colors.length];
   };
 
+  const totalBalance = sortedAccounts.reduce(
+    (sum, account) => sum + parseFloat(account.current_balance),
+    0,
+  );
+
   if (error) {
     return (
       <Grid container spacing={2}>
@@ -154,11 +146,6 @@ const AccountsList = () => {
       </Grid>
     );
   }
-
-  const totalBalance = accounts.reduce(
-    (sum, account) => sum + parseFloat(account.current_balance),
-    0,
-  );
 
   return (
     <Box>
@@ -235,7 +222,7 @@ const AccountsList = () => {
                 </Box>
               </Grid>
             ))
-          : accounts.map((account, index) => {
+          : sortedAccounts.map((account, index) => {
               const percent = totalBalance > 0 ? (account.current_balance / totalBalance) * 100 : 0;
               return (
                 <Grid xs={12} sm={6} lg={3} key={account.id}>

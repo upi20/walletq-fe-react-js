@@ -18,16 +18,15 @@ const SidebarItems = () => {
   const dispatch = useDispatch();
 
   return (
-    <Box sx={{ px: 3 }}>
-      <List sx={{ pt: 0 }} className="sidebarNav">
-        {Menuitems.map((item, index) => {
-          // {/********SubHeader**********/}
+    <Box sx={{ height: '100%' }}>
+      <List sx={{ py: 1 }} className="sidebarNav">
+        {Menuitems.map((item) => {
+          // If item is subheader
           if (item.subheader) {
             return <NavGroup item={item} hideMenu={hideMenu} key={item.subheader} />;
-
-            // {/********If Sub Menu**********/}
-            /* eslint no-else-return: "off" */
-          } else if (item.children) {
+          }
+          // If item has children
+          else if (item.children) {
             return (
               <NavCollapse
                 menu={item}
@@ -39,9 +38,9 @@ const SidebarItems = () => {
                 onClick={() => dispatch(toggleMobileSidebar())}
               />
             );
-
-            // {/********If Sub No Menu**********/}
-          } else {
+          }
+          // Regular menu item
+          else {
             return (
               <NavItem
                 item={item}
@@ -57,4 +56,5 @@ const SidebarItems = () => {
     </Box>
   );
 };
+
 export default SidebarItems;

@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { Link } from 'react-router';
 import { Box, Menu, Avatar, Typography, Divider, Button, IconButton } from '@mui/material';
 import * as dropdownData from './data';
-
 import { IconMail } from '@tabler/icons';
 import { Stack } from '@mui/system';
-
-import ProfileImg from 'src/assets/images/profile/user-1.jpg';
 import unlimitedImg from 'src/assets/images/backgrounds/unlimited-bg.png';
 import Scrollbar from 'src/components/custom-scroll/Scrollbar';
 import { useAuth } from '../../../../hook/useAuth';
+import { useUserData } from '../../../../hook/useUserData';
 import LogoutConfirmDialog from '../../../../components/dialogs/LogoutConfirmDialog';
+import { formatRupiah } from '../../../../utils/formatRupiah';
 
 const Profile = () => {
   const { logout } = useAuth();
+  const { userData } = useUserData(); // Use the shared context
   const [anchorEl2, setAnchorEl2] = useState(null);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
@@ -36,8 +36,8 @@ const Profile = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      handleClose2();
       setShowLogoutDialog(false);
+      handleClose2();
     } catch (error) {
       console.error('Logout failed:', error);
     }
@@ -51,21 +51,9 @@ const Profile = () => {
         color="inherit"
         aria-controls="msgs-menu"
         aria-haspopup="true"
-        sx={{
-          ...(typeof anchorEl2 === 'object' && {
-            color: 'primary.main',
-          }),
-        }}
         onClick={handleClick2}
       >
-        <Avatar
-          src={ProfileImg}
-          alt={ProfileImg}
-          sx={{
-            width: 35,
-            height: 35,
-          }}
-        />
+        <Avatar src={userData.profile?.avatar || ''} alt={userData.name || ''} />
       </IconButton>
       {/* ------------------------------------------- */}
       {/* Message Dropdown */}
@@ -91,13 +79,16 @@ const Profile = () => {
           <Divider />
           <Box p={3}>
             <Stack direction="row" py={3} spacing={2} alignItems="center">
-              <Avatar src={ProfileImg} alt={ProfileImg} sx={{ width: 95, height: 95 }} />
+              <Avatar
+                src={userData.profile?.avatar || ''}
+                alt={userData.name}
+                sx={{ width: 95, height: 95 }}
+              />
               <Box>
                 <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
-                  Mathew Anderson
-                </Typography>
-                <Typography variant="subtitle2" color="textSecondary">
-                  Designer
+                  {userData.name}
+                </Typography>                <Typography variant="subtitle2" color="primary" fontWeight={600}>
+                  Rp {formatRupiah(userData.balance, false)}
                 </Typography>
                 <Typography
                   variant="subtitle2"
@@ -107,7 +98,7 @@ const Profile = () => {
                   gap={1}
                 >
                   <IconMail width={15} height={15} />
-                  info@modernize.com
+                  {userData.email}
                 </Typography>
               </Box>
             </Stack>
@@ -178,12 +169,8 @@ const Profile = () => {
                   </Box>
                   <img src={unlimitedImg} alt="unlimited" className="signup-bg"></img>
                 </Box>
-              </Box>              <Button
-                variant="outlined"
-                color="primary"
-                onClick={handleLogoutClick}
-                fullWidth
-              >
+              </Box>
+              <Button variant="outlined" color="primary" onClick={handleLogoutClick} fullWidth>
                 Logout
               </Button>
               <LogoutConfirmDialog

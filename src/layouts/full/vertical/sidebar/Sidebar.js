@@ -11,6 +11,7 @@ const Sidebar = () => {
   const customizer = useSelector((state) => state.customizer);
   const dispatch = useDispatch();
   const theme = useTheme();
+
   const toggleWidth =
     customizer.isCollapse && !customizer.isSidebarHover
       ? customizer.MiniSidebarWidth
@@ -37,9 +38,7 @@ const Sidebar = () => {
           }),
         }}
       >
-        {/* ------------------------------------------- */}
-        {/* Sidebar for desktop */}
-        {/* ------------------------------------------- */}
+        {/* Desktop Sidebar */}
         <Drawer
           anchor="left"
           open
@@ -53,35 +52,50 @@ const Sidebar = () => {
               }),
               width: toggleWidth,
               boxSizing: 'border-box',
+              border: 0,
+              boxShadow: customizer.isCardShadow ? theme.shadows[8] : 'none',
             },
           }}
         >
-          {/* ------------------------------------------- */}
-          {/* Sidebar Box */}
-          {/* ------------------------------------------- */}
+          {/* Sidebar Content */}
           <Box
             sx={{
+              height: '100vh',
+              display: 'flex',
+              flexDirection: 'column',
               backgroundColor:
-                customizer.activeSidebarBg === '#ffffff' && customizer.activeMode === 'dark'
+                customizer.activeMode === 'dark'
                   ? customizer.darkBackground900
                   : customizer.activeSidebarBg,
               color: customizer.activeSidebarBg === '#ffffff' ? '' : 'white',
-              height: '100%',
             }}
           >
-            {/* ------------------------------------------- */}
             {/* Logo */}
-            {/* ------------------------------------------- */}
-            <Box px={3}>
+            <Box px={3} py={2}>
               <Logo />
             </Box>
-            <Scrollbar sx={{ height: 'calc(100% - 190px)' }}>
-              {/* ------------------------------------------- */}
-              {/* Sidebar Items */}
-              {/* ------------------------------------------- */}
-              <SidebarItems />
-            </Scrollbar>
-            <Profile />
+
+            {/* Menu Items with Scrollable Area */}
+            <Box sx={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden' }}>
+              <Scrollbar>
+                <SidebarItems />
+              </Scrollbar>
+            </Box>
+
+            {/* Profile Section - Fixed at Bottom */}
+            <Box
+              sx={{
+                p: 1,
+                pt: 2,
+                // borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+                backgroundColor: (theme) =>
+                  theme.palette.mode === 'dark'
+                    ? 'rgba(0,0,0,0.15)'
+                    : 'background.default'
+              }}
+            >
+              <Profile />
+            </Box>
           </Box>
         </Drawer>
       </Box>
@@ -107,15 +121,9 @@ const Sidebar = () => {
         },
       }}
     >
-      {/* ------------------------------------------- */}
-      {/* Logo */}
-      {/* ------------------------------------------- */}
       <Box px={2}>
         <Logo />
       </Box>
-      {/* ------------------------------------------- */}
-      {/* Sidebar For Mobile */}
-      {/* ------------------------------------------- */}
       <SidebarItems />
     </Drawer>
   );

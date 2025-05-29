@@ -1,56 +1,39 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { ThemeSettings } from './theme/Theme';
 import RTL from './layouts/full/shared/customizer/RTL';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { RouterProvider } from 'react-router';
 import router from './routes/Router';
 import { UserDataContext } from './hook/useUserData';
+import { fetchUserData, setAuthenticated } from './store/auth/AuthSlice';
 import authService from './services/auth.service';
 import './App.css';
 
 function App() {
   const theme = ThemeSettings();
+  const dispatch = useDispatch();
   const customizer = useSelector((state) => state.customizer);
-
-  const [userData, setUserData] = useState({
-    balance: 0,
-    accounts: [],
-    name: '',
-    email: '',
-    role: 'User',
-    profile: {},
-  });
+  const { userData, isAuthenticated } = useSelector((state) => state.auth);
 
   // Centralized data fetching
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await authService.me();
-        setUserData({
-          balance: parseFloat(response.balance),
-          accounts: response.accounts || [],
-          name: response.name || '',
-          email: response.email || '',
-          role: response.role || 'User',
-          profile: response.profile || {},
-        });
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
     const token = authService.getToken();
-    if (token && authService.isTokenValid(token)) {
-      fetchData();
+    if (token) {
+      const isValid = authService.isTokenValid(token);
+      dispatch(setAuthenticated(isValid));
+      if (isValid) {
+        dispatch(fetchUserData());
+      }
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
+      {' '}
       <RTL direction={customizer.activeDir}>
         <CssBaseline />
-        <UserDataContext.Provider value={{ userData, setUserData }}>
+        <UserDataContext.Provider value={{ userData }}>
           <RouterProvider router={router} />
         </UserDataContext.Provider>
       </RTL>

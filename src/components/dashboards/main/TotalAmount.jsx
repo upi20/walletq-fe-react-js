@@ -11,16 +11,27 @@ const TotalAmount = ({ balance = 0, isLoading = false }) => {
       p={4}
       borderRadius={1}
       sx={{
-        background: `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
-        boxShadow: '0 4px 20px 0 rgba(0,0,0,0.1)',
+        background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+        boxShadow: '0 4px 20px 0 rgba(0,0,0,0.15)',
       }}
     >
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box>
-          <Typography variant="h6" color="white" sx={{ opacity: 0.8 }} gutterBottom>
+          {' '}
+          <Typography
+            variant="h6"
+            color="white"
+            sx={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
+            gutterBottom
+          >
             Total Saldo
           </Typography>
-          <Typography variant="h3" fontWeight={700} color="white">
+          <Typography
+            variant="h3"
+            fontWeight={700}
+            color="white"
+            sx={{ textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+          >
             Rp {formatRupiah(balance)}
           </Typography>
         </Box>

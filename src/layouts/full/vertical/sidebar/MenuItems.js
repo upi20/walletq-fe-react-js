@@ -35,12 +35,11 @@ const Menuitems = [
     title: 'Hutang',
     icon: IconCreditCard,
     href: '/',
-  },
-  {
+  }, {
     id: uniqueId(),
     title: 'Rekening',
     icon: IconCashBanknote,
-    href: '/',
+    href: '/apps/accounts',
   },
   {
     id: uniqueId(),

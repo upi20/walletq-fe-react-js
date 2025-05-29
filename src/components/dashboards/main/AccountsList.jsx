@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
-  LinearProgress,
+  Paper,
   Avatar,
   useTheme,
   Skeleton,
@@ -12,6 +12,10 @@ import {
   ListItemIcon,
   ListItemText,
   Tooltip,
+  Card,
+  CardContent,
+  Stack,
+  LinearProgress,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { formatRupiah } from '../../../utils/formatRupiah';
@@ -27,11 +31,16 @@ const AccountsList = ({ accounts = [], isLoading = false }) => {
   const [sortedAccounts, setSortedAccounts] = useState(accounts);
   const [anchorEl, setAnchorEl] = useState(null);
   const [sortConfig, setSortConfig] = useState({
-    key: 'name',
-    direction: 'asc',
+    key: 'balance',
+    direction: 'desc',
   });
   const [error, setError] = useState(null);
   const theme = useTheme();
+
+  const totalBalance = sortedAccounts.reduce(
+    (sum, account) => sum + parseFloat(account.current_balance),
+    0,
+  );
 
   // Update sortedAccounts when accounts prop changes
   React.useEffect(() => {
@@ -48,10 +57,8 @@ const AccountsList = ({ accounts = [], isLoading = false }) => {
 
   const formatDate = (dateString) => {
     try {
-      // Coba parse dengan asumsi format ISO
       const date = new Date(dateString);
       if (isNaN(date.getTime())) {
-        // Jika invalid, coba parse format custom (jika ada)
         const [datePart, timePart] = dateString.split(' ');
         const [day, month, year] = datePart.split('-');
         const [hours, minutes, seconds] = (timePart || '00:00:00').split(':');
@@ -60,7 +67,7 @@ const AccountsList = ({ accounts = [], isLoading = false }) => {
       return date;
     } catch (error) {
       console.warn('Invalid date format:', dateString);
-      return new Date(0); // Return epoch date jika parsing gagal
+      return new Date(0);
     }
   };
 
@@ -122,11 +129,6 @@ const AccountsList = ({ accounts = [], isLoading = false }) => {
     return colors[index % colors.length];
   };
 
-  const totalBalance = sortedAccounts.reduce(
-    (sum, account) => sum + parseFloat(account.current_balance),
-    0,
-  );
-
   if (error) {
     return (
       <Grid container spacing={2}>
@@ -135,7 +137,7 @@ const AccountsList = ({ accounts = [], isLoading = false }) => {
             bgcolor="rgba(244, 67, 54, 0.08)"
             textAlign="center"
             p={3}
-            borderRadius={1}
+            borderRadius={2}
             sx={{ boxShadow: '0 2px 6px rgba(244, 67, 54, 0.1)' }}
           >
             <Typography color="error" align="center">
@@ -149,23 +151,72 @@ const AccountsList = ({ accounts = [], isLoading = false }) => {
 
   return (
     <Box>
-      <Box display="flex" alignItems="center" justifyContent="space-between" mb={3} px={1}>
-        <Box display="flex" alignItems="center">
-          <AccountBalanceWalletIcon color="primary" sx={{ mr: 2 }} />
-          <Typography variant="h5" fontWeight={600}>
-            Daftar Rekening
-          </Typography>
-        </Box>
-        <IconButton
-          onClick={handleSortClick}
-          size="small"
-          sx={{
-            bgcolor: Boolean(anchorEl) ? 'rgba(0,0,0,0.08)' : 'rgba(0,0,0,0.04)',
-            '&:hover': { bgcolor: 'rgba(0,0,0,0.08)' },
-          }}
+      <Paper
+        elevation={1}
+        sx={{
+          p: 3,
+          mb: 4,
+          backgroundColor: theme.palette.background.paper,
+          borderRadius: 2,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+        }}
+      >
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          alignItems={{ xs: 'stretch', sm: 'center' }}
+          justifyContent="space-between"
+          spacing={3}
         >
-          <SortIcon />
-        </IconButton>
+          <Stack direction="row" alignItems="center" spacing={2.5}>
+            <Avatar
+              sx={{
+                bgcolor: theme.palette.primary.light,
+                color: theme.palette.primary.main,
+                width: 48,
+                height: 48,
+                boxShadow: `0 0 0 4px ${theme.palette.primary.light}`,
+              }}
+            >
+              <AccountBalanceWalletIcon />
+            </Avatar>
+            <Box>
+              <Typography variant="h5" fontWeight={700} gutterBottom>
+                Daftar Rekening
+              </Typography>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Typography variant="subtitle1" color="textSecondary">
+                  {sortedAccounts.length} Rekening Aktif
+                </Typography>
+                <Typography variant="subtitle1" color="textSecondary">
+                  •
+                </Typography>
+                <Typography variant="subtitle1" color="primary" fontWeight={600}>
+                  Total: {formatRupiah(totalBalance)}
+                </Typography>
+              </Stack>
+            </Box>
+          </Stack>
+          <Tooltip title="Urutkan Rekening">
+            <IconButton
+              onClick={handleSortClick}
+              size="large"
+              sx={{
+                bgcolor: Boolean(anchorEl)
+                  ? `${theme.palette.primary.light} !important`
+                  : 'transparent',
+                color: Boolean(anchorEl)
+                  ? theme.palette.primary.main
+                  : theme.palette.text.secondary,
+                '&:hover': {
+                  bgcolor: theme.palette.primary.light,
+                  color: theme.palette.primary.main,
+                },
+              }}
+            >
+              <SortIcon />
+            </IconButton>
+          </Tooltip>
+        </Stack>
         <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
@@ -177,6 +228,14 @@ const AccountsList = ({ accounts = [], isLoading = false }) => {
           transformOrigin={{
             vertical: 'top',
             horizontal: 'right',
+          }}
+          PaperProps={{
+            elevation: 1,
+            sx: {
+              minWidth: 200,
+              mt: 1,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+            },
           }}
         >
           <MenuItem onClick={() => handleSort('name')} selected={sortConfig.key === 'name'}>
@@ -193,97 +252,132 @@ const AccountsList = ({ accounts = [], isLoading = false }) => {
             <ListItemText>Sort by Balance</ListItemText>
             {getSortIcon('balance')}
           </MenuItem>
-          <Tooltip title="Sort by creation date and time" placement="left">
-            <MenuItem onClick={() => handleSort('created')} selected={sortConfig.key === 'created'}>
-              <ListItemIcon>
-                <AccessTimeIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Sort by Created Date</ListItemText>
-              {getSortIcon('created')}
-            </MenuItem>
-          </Tooltip>
+          <MenuItem onClick={() => handleSort('created')} selected={sortConfig.key === 'created'}>
+            <ListItemIcon>
+              <AccessTimeIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Sort by Created Date</ListItemText>
+            {getSortIcon('created')}
+          </MenuItem>
         </Menu>
-      </Box>
+      </Paper>
 
-      <Grid container spacing={2}>
+      <Grid container spacing={3}>
         {isLoading
-          ? [...Array(4)].map((_, index) => (
-              <Grid xs={12} sm={6} lg={3} key={index}>
-                <Box
-                  bgcolor={getColor(index)}
-                  p={3}
-                  borderRadius={1}
-                  sx={{ boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <Grid xs={12} sm={6} md={4} lg={3} key={index}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    bgcolor: getColor(index),
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                    borderRadius: 2,
+                  }}
                 >
-                  <Skeleton variant="circular" width={44} height={44} sx={{ mb: 2 }} />
-                  <Skeleton variant="text" width="60%" sx={{ mb: 1 }} />
-                  <Skeleton variant="text" width="80%" height={32} sx={{ mb: 2 }} />
-                  <Skeleton variant="rectangular" height={6} />
-                </Box>
+                  <CardContent sx={{ p: 3 }}>
+                    <Skeleton
+                      variant="circular"
+                      width={48}
+                      height={48}
+                      sx={{
+                        mb: 2,
+                        bgcolor: 'rgba(0,0,0,0.08)',
+                      }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      width="60%"
+                      sx={{
+                        mb: 1,
+                        bgcolor: 'rgba(0,0,0,0.08)',
+                      }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      width="80%"
+                      height={32}
+                      sx={{
+                        mb: 2,
+                        bgcolor: 'rgba(0,0,0,0.08)',
+                      }}
+                    />
+                    <Skeleton
+                      variant="rectangular"
+                      height={6}
+                      sx={{
+                        borderRadius: 3,
+                        bgcolor: 'rgba(0,0,0,0.08)',
+                      }}
+                    />
+                  </CardContent>
+                </Card>
               </Grid>
             ))
           : sortedAccounts.map((account, index) => {
               const percent = totalBalance > 0 ? (account.current_balance / totalBalance) * 100 : 0;
               return (
-                <Grid xs={12} sm={6} lg={3} key={account.id}>
-                  <Box
-                    bgcolor={getColor(index)}
-                    p={3}
-                    borderRadius={1}
+                <Grid xs={12} sm={6} md={4} lg={3} key={account.id}>
+                  <Card
                     sx={{
+                      height: '100%',
+                      bgcolor: getColor(index),
                       boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                      borderRadius: 2,
                       transition: 'all 0.2s',
                       cursor: 'pointer',
                       '&:hover': {
                         transform: 'translateY(-4px)',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                        boxShadow: '0 8px 16px rgba(0,0,0,0.12)',
+                        bgcolor: `${getColor(index).replace('0.08', '0.12')}`,
                       },
                     }}
                   >
-                    <Avatar
-                      sx={{
-                        bgcolor: 'white',
-                        width: 44,
-                        height: 44,
-                        mb: 2,
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-                        '& .MuiSvgIcon-root': {
-                          color: getTextColor(index),
-                        },
-                      }}
-                    >
-                      <AccountBalanceWalletIcon />
-                    </Avatar>
-                    <Typography
-                      variant="subtitle1"
-                      sx={{ color: 'text.primary' }}
-                      fontWeight={500}
-                      mb={0.5}
-                    >
-                      {account.name}
-                    </Typography>
-                    <Typography
-                      variant="h5"
-                      fontWeight={700}
-                      sx={{ color: getTextColor(index) }}
-                      mb={2}
-                    >
-                      {formatRupiah(account.current_balance)}
-                    </Typography>
-                    <LinearProgress
-                      variant="determinate"
-                      value={percent}
-                      sx={{
-                        height: 6,
-                        borderRadius: 3,
-                        bgcolor: 'rgba(0,0,0,0.04)',
-                        '& .MuiLinearProgress-bar': {
+                    <CardContent sx={{ p: 3 }}>
+                      <Avatar
+                        sx={{
+                          bgcolor: 'white',
+                          width: 48,
+                          height: 48,
+                          mb: 2,
+                          boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+                          '& .MuiSvgIcon-root': {
+                            color: getTextColor(index),
+                          },
+                        }}
+                      >
+                        <AccountBalanceWalletIcon />
+                      </Avatar>
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ color: 'text.primary' }}
+                        fontWeight={500}
+                        mb={0.5}
+                      >
+                        {account.name}
+                      </Typography>
+                      <Typography
+                        variant="h5"
+                        fontWeight={700}
+                        sx={{ color: getTextColor(index) }}
+                        mb={2}
+                      >
+                        {formatRupiah(account.current_balance)}
+                      </Typography>
+                      <LinearProgress
+                        variant="determinate"
+                        value={percent}
+                        sx={{
+                          height: 6,
                           borderRadius: 3,
-                          bgcolor: getTextColor(index),
-                        },
-                      }}
-                    />
-                  </Box>
+                          bgcolor: 'rgba(0,0,0,0.04)',
+                          '& .MuiLinearProgress-bar': {
+                            borderRadius: 3,
+                            bgcolor: getTextColor(index),
+                          },
+                        }}
+                      />
+                    </CardContent>
+                  </Card>
                 </Grid>
               );
             })}

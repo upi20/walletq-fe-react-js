@@ -71,9 +71,6 @@ const Main = () => {
     <UserDataContext.Provider value={{ userData, setUserData }}>
       <Grid container spacing={3}>
         <Grid item xs={12} lg={12}>
-          <TotalAmount balance={userData.balance} />
-        </Grid>
-        <Grid item xs={12} lg={12}>
           <AccountsList accounts={userData.accounts} />
         </Grid>
       </Grid>

@@ -12,6 +12,7 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')))
 const ModernDash = Loadable(lazy(() => import('../views/dashboard/Modern')));
 const MainDash = Loadable(lazy(() => import('../views/dashboard/Main')));
 const EcommerceDash = Loadable(lazy(() => import('../views/dashboard/Ecommerce')));
+const AccountsPage = Loadable(lazy(() => import('../views/apps/accounts/AccountsPage')));
 
 /* ****Apps***** */
 const Chats = Loadable(lazy(() => import('../views/apps/chat/Chat')));
@@ -169,6 +170,7 @@ const Router = [
       { path: '/apps/email', element: <Email /> },
       { path: '/apps/tickets', element: <Tickets /> },
       { path: '/apps/contacts', element: <Contacts /> },
+      { path: '/apps/accounts', element: <AccountsPage /> },
       { path: '/apps/ecommerce/shop', element: <Ecommerce /> },
       { path: '/apps/ecommerce/eco-product-list', element: <EcomProductList /> },
       { path: '/apps/ecommerce/eco-checkout', element: <EcomProductCheckout /> },

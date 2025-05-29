@@ -19,11 +19,46 @@ axiosServices.interceptors.request.use(
 );
 
 axiosServices.interceptors.response.use(
-    (response) => response,
+    (response) => {
+        // Successful response handling
+        const { data } = response;
+        if (data.status === false) {
+            return Promise.reject({
+                ...data,
+                isApiError: true
+            });
+        }
+        return data;
+    },
     (error) => {
-        return Promise.reject(
-            error.response || { message: 'Terjadi kesalahan jaringan.' }
-        );
+        // Error handling
+        if (error.response) {
+            // Server responded with error
+            const { status, data } = error.response;
+
+            // Handle 401 Unauthorized
+            if (status === 401) {
+                localStorage.removeItem('token');
+                window.location.href = '/auth/login';
+            }
+
+            // Handle 403 Forbidden
+            if (status === 403) {
+                console.error('Access forbidden');
+            }
+
+            return Promise.reject({
+                ...data,
+                isApiError: true,
+                status: status
+            });
+        }
+
+        // Network error
+        return Promise.reject({
+            message: 'Terjadi kesalahan jaringan. Silakan coba lagi.',
+            isNetworkError: true
+        });
     }
 );
 export default axiosServices;

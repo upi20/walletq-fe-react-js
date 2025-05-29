@@ -1,0 +1,1502 @@
+{
+	"info": {
+		"_postman_id": "7dd63481-7bd7-4c49-91eb-f87e3f33e4dd",
+		"name": "WalletQ",
+		"description": "Postman Collection for UangKu Personal Finance API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11190770",
+		"_collection_link": "https://www.postman.com/musangempire/workspace/hobby/collection/11190770-7dd63481-7bd7-4c49-91eb-f87e3f33e4dd?action=share&source=collection_link&creator=11190770"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Ambil token dari response JSON\r",
+									"const response = pm.response.json();\r",
+									"const token = response.data?.token;\r",
+									"\r",
+									"if (token) {\r",
+									"    // Set token ke environment variable\r",
+									"    pm.environment.set(\"auth_token\", token);\r",
+									"    console.log(\"✅ Token saved to environment: auth_token\");\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ Token not found in response!\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Isep Lutpi Nur\",\r\n  \"email\": \"iseplutpinur7@gmail.com\",\r\n  \"password\": \"12345678\",\r\n  \"password_confirmation\": \"123456781\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Sukses",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Isep Lutpi Nur\",\r\n  \"email\": \"iseplutpinur7@gmail.com\",\r\n  \"password\": \"12345678\",\r\n  \"password_confirmation\": \"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 May 2025 03:44:25 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"User registered successfully\",\n    \"data\": {\n        \"user\": {\n            \"name\": \"Isep Lutpi Nur\",\n            \"email\": \"iseplutpinur7@gmail.com\",\n            \"updated_at\": \"2025-05-29T03:44:25.000000Z\",\n            \"created_at\": \"2025-05-29T03:44:25.000000Z\",\n            \"id\": 2\n        },\n        \"token\": \"{{vault:json-web-token}}\"\n    }\n}"
+						},
+						{
+							"name": "Email Sudah Digunakan",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Isep Lutpi Nur\",\r\n  \"email\": \"iseplutpinur7@gmail.com\",\r\n  \"password\": \"12345678\",\r\n  \"password_confirmation\": \"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Unprocessable Content",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 May 2025 03:44:54 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"email\": [\n        \"validation.unique\"\n    ]\n}"
+						},
+						{
+							"name": "Konfirmasi Password Tidak Sama",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Isep Lutpi Nur\",\r\n  \"email\": \"iseplutpinur@gmail.com\",\r\n  \"password\": \"12345678\",\r\n  \"password_confirmation\": \"123456781\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Unprocessable Content",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 May 2025 03:45:56 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"password\": [\n        \"validation.confirmed\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Ambil token dari response JSON\r",
+									"const response = pm.response.json();\r",
+									"const token = response.data?.token;\r",
+									"\r",
+									"if (token) {\r",
+									"    // Set token ke environment variable\r",
+									"    pm.environment.set(\"auth_token\", token);\r",
+									"    console.log(\"✅ Token saved to environment: auth_token\");\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ Token not found in response!\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"iseplutpinur7@gmail.com\",\r\n  \"password\": \"1234567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Password Atau Email Salah",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"iseplutpinur7@gmail.com\",\r\n  \"password\": \"1234567\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 May 2025 03:47:03 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 401,\n    \"message\": \"Invalid credentials\"\n}"
+						},
+						{
+							"name": "Sukses",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"iseplutpinur7@gmail.com\",\r\n  \"password\": \"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 May 2025 03:47:30 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Login success\",\n    \"data\": {\n        \"token\": \"{{vault:json-web-token}}\",\n        \"user\": {\n            \"id\": 2,\n            \"name\": \"Isep Lutpi Nur\",\n            \"email\": \"iseplutpinur7@gmail.com\",\n            \"email_verified_at\": null,\n            \"currency\": \"IDR\",\n            \"locale\": \"id\",\n            \"avatar\": null,\n            \"plan\": \"free\",\n            \"balance\": \"0.00\",\n            \"created_at\": \"2025-05-29T03:44:25.000000Z\",\n            \"updated_at\": \"2025-05-29T03:44:25.000000Z\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Sukses",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/auth/me",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"me"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 May 2025 03:48:26 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Authenticated user\",\n    \"data\": {\n        \"id\": 2,\n        \"name\": \"Isep Lutpi Nur\",\n        \"email\": \"iseplutpinur7@gmail.com\",\n        \"email_verified_at\": null,\n        \"currency\": \"IDR\",\n        \"locale\": \"id\",\n        \"avatar\": null,\n        \"plan\": \"free\",\n        \"balance\": \"15241165.00\",\n        \"created_at\": \"2025-05-29T03:44:25.000000Z\",\n        \"updated_at\": \"2025-05-29T03:48:19.000000Z\",\n        \"accounts\": [\n            {\n                \"id\": 4,\n                \"user_id\": 2,\n                \"account_category_id\": null,\n                \"name\": \"BANK BRI\",\n                \"type\": null,\n                \"note\": null,\n                \"initial_balance\": \"700000.00\",\n                \"current_balance\": \"3709324.00\",\n                \"created_at\": \"2025-05-29T03:48:14.000000Z\",\n                \"updated_at\": \"2025-05-29T03:48:19.000000Z\"\n            },\n            {\n                \"id\": 3,\n                \"user_id\": 2,\n                \"account_category_id\": null,\n                \"name\": \"MANDIRI\",\n                \"type\": null,\n                \"note\": null,\n                \"initial_balance\": \"0.00\",\n                \"current_balance\": \"1636403.00\",\n                \"created_at\": \"2025-05-29T03:48:14.000000Z\",\n                \"updated_at\": \"2025-05-29T03:48:19.000000Z\"\n            },\n            {\n                \"id\": 7,\n                \"user_id\": 2,\n                \"account_category_id\": null,\n                \"name\": \"BANK BNI\",\n                \"type\": null,\n                \"note\": null,\n                \"initial_balance\": \"0.00\",\n                \"current_balance\": \"7555873.00\",\n                \"created_at\": \"2025-05-29T03:48:14.000000Z\",\n                \"updated_at\": \"2025-05-29T03:48:19.000000Z\"\n            },\n            {\n                \"id\": 9,\n                \"user_id\": 2,\n                \"account_category_id\": null,\n                \"name\": \"Bibit\",\n                \"type\": null,\n                \"note\": null,\n                \"initial_balance\": \"0.00\",\n                \"current_balance\": \"750000.00\",\n                \"created_at\": \"2025-05-29T03:48:14.000000Z\",\n                \"updated_at\": \"2025-05-29T03:48:19.000000Z\"\n            },\n            {\n                \"id\": 2,\n                \"user_id\": 2,\n                \"account_category_id\": null,\n                \"name\": \"BCA Blu\",\n                \"type\": null,\n                \"note\": null,\n                \"initial_balance\": \"0.00\",\n                \"current_balance\": \"1302380.00\",\n                \"created_at\": \"2025-05-29T03:48:14.000000Z\",\n                \"updated_at\": \"2025-05-29T03:48:19.000000Z\"\n            },\n            {\n                \"id\": 8,\n                \"user_id\": 2,\n                \"account_category_id\": null,\n                \"name\": \"SeaBank\",\n                \"type\": null,\n                \"note\": null,\n                \"initial_balance\": \"2186110.00\",\n                \"current_balance\": \"44500.00\",\n                \"created_at\": \"2025-05-29T03:48:14.000000Z\",\n                \"updated_at\": \"2025-05-29T03:48:19.000000Z\"\n            },\n            {\n                \"id\": 1,\n                \"user_id\": 2,\n                \"account_category_id\": null,\n                \"name\": \"DOMPET\",\n                \"type\": null,\n                \"note\": null,\n                \"initial_balance\": \"1592000.00\",\n                \"current_balance\": \"155000.00\",\n                \"created_at\": \"2025-05-29T03:48:14.000000Z\",\n                \"updated_at\": \"2025-05-29T03:48:19.000000Z\"\n            },\n            {\n                \"id\": 5,\n                \"user_id\": 2,\n                \"account_category_id\": null,\n                \"name\": \"GOPAY\",\n                \"type\": null,\n                \"note\": null,\n                \"initial_balance\": \"1075.00\",\n                \"current_balance\": \"50138.00\",\n                \"created_at\": \"2025-05-29T03:48:14.000000Z\",\n                \"updated_at\": \"2025-05-29T03:48:19.000000Z\"\n            },\n            {\n                \"id\": 6,\n                \"user_id\": 2,\n                \"account_category_id\": null,\n                \"name\": \"SHOPEE PAY\",\n                \"type\": null,\n                \"note\": null,\n                \"initial_balance\": \"9471.00\",\n                \"current_balance\": \"18491.00\",\n                \"created_at\": \"2025-05-29T03:48:14.000000Z\",\n                \"updated_at\": \"2025-05-29T03:48:19.000000Z\"\n            },\n            {\n                \"id\": 10,\n                \"user_id\": 2,\n                \"account_category_id\": null,\n                \"name\": \"Bank Jago\",\n                \"type\": null,\n                \"note\": null,\n                \"initial_balance\": \"0.00\",\n                \"current_balance\": \"19056.00\",\n                \"created_at\": \"2025-05-29T03:48:16.000000Z\",\n                \"updated_at\": \"2025-05-29T03:48:19.000000Z\"\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "Gagal Token Tidak Valid",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/auth/me",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"me"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 May 2025 03:48:49 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Token not valid\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Sukses",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/auth/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 May 2025 03:49:50 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Logged out successfully\"\n}"
+						},
+						{
+							"name": "Gagal Token Tidak Valid",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/auth/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 May 2025 03:50:02 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Token not valid\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Refresh",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Ambil token dari response JSON\r",
+									"const response = pm.response.json();\r",
+									"const token = response.data?.token;\r",
+									"\r",
+									"if (token) {\r",
+									"    // Set token ke environment variable\r",
+									"    pm.environment.set(\"auth_token\", token);\r",
+									"    console.log(\"✅ Token saved to environment: auth_token\");\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ Token not found in response!\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/refresh",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Sukses",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/refresh",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"refresh"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 May 2025 03:49:15 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Token refreshed\",\n    \"data\": {\n        \"token\": \"{{vault:json-web-token}}\"\n    }\n}"
+						},
+						{
+							"name": "Gagal Token Tidak Valid",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/refresh",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"refresh"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.3.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 29 May 2025 03:49:29 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Token not valid\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Transactions",
+					"item": [
+						{
+							"name": "Import Create Transaction",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/D:/Document/Hobby/WalletQ/import/Paling baru.xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/user/transaction/import",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"transaction",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Transactions",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/transactions",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"transactions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Transaction",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/transactions",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"transactions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Transaction",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/transactions/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Transaction",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/transactions/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Transaction",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/transactions/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Transfers",
+					"item": [
+						{
+							"name": "Create Transfer",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/transfers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"transfers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Transfers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/transfers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"transfers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Debts",
+					"item": [
+						{
+							"name": "List Debts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/debts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"debts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Debt",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/debts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"debts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Pay Debt",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/debts/:id/pay",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"debts",
+										":id",
+										"pay"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Debt Transactions",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/debts/:id/transactions",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"debts",
+										":id",
+										"transactions"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Tags",
+					"item": [
+						{
+							"name": "List Tags",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/tags",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"tags"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Tag",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/tags",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"tags"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Tag",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/tags/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"tags",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Settings",
+					"item": [
+						{
+							"name": "Get Settings",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/settings",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Setting",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/settings/:key",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"settings",
+										":key"
+									],
+									"variable": [
+										{
+											"key": "key"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create/Replace Setting",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/settings",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"settings"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Master Data",
+					"item": [
+						{
+							"name": "Account",
+							"item": [
+								{
+									"name": "List",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{auth_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/user/master-data/account",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"master-data",
+												"account"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{auth_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "BJB Tapera",
+													"type": "text"
+												},
+												{
+													"key": "account_category_id",
+													"value": "",
+													"type": "text"
+												},
+												{
+													"key": "initial_balance",
+													"value": "50000",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/user/master-data/account",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"master-data",
+												"account"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{auth_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/user/master-data/account/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"master-data",
+												"account",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "4"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/user/transactions/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"transactions",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/user/transactions/:id",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"transactions",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Account Categories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/master-data/account-categories",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"master-data",
+										"account-categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transaction Categories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/master-data/transaction-categories",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"master-data",
+										"transaction-categories"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

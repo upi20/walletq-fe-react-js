@@ -12,13 +12,22 @@ import Scrollbar from 'src/components/custom-scroll/Scrollbar';
 import { useAuth } from '../../../../hook/useAuth';
 
 const Profile = () => {
-  const { handleLogout } = useAuth();
+  const { logout } = useAuth();
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
   };
   const handleClose2 = () => {
     setAnchorEl2(null);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      handleClose2();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
   };
 
   return (
@@ -65,6 +74,9 @@ const Profile = () => {
         <Scrollbar sx={{ height: '100%', maxHeight: '85vh' }}>
           <Box p={3}>
             <Typography variant="h5">User Profile</Typography>
+          </Box>
+          <Divider />
+          <Box p={3}>
             <Stack direction="row" py={3} spacing={2} alignItems="center">
               <Avatar src={ProfileImg} alt={ProfileImg} sx={{ width: 95, height: 95 }} />
               <Box>
@@ -93,8 +105,8 @@ const Profile = () => {
                   <Link to={profile.href}>
                     <Stack direction="row" spacing={2}>
                       <Box
-                        width="45px"
-                        height="45px"
+                        width={45}
+                        height={45}
                         bgcolor="primary.light"
                         display="flex"
                         alignItems="center"

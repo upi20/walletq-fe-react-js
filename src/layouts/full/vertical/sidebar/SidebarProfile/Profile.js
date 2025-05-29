@@ -6,10 +6,19 @@ import { IconPower } from '@tabler/icons';
 import { useAuth } from '../../../../../hook/useAuth';
 
 export const Profile = () => {
-  const { handleLogout } = useAuth();
+  const { logout } = useAuth();
   const customizer = useSelector((state) => state.customizer);
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   return (
     <Box
       display={'flex'}
@@ -27,7 +36,12 @@ export const Profile = () => {
           </Box>
           <Box sx={{ ml: 'auto' }}>
             <Tooltip title="Logout" placement="top">
-              <IconButton color="primary" onClick={handleLogout} aria-label="logout" size="small">
+              <IconButton 
+                color="primary" 
+                onClick={handleLogout} 
+                aria-label="logout" 
+                size="small"
+              >
                 <IconPower size="20" />
               </IconButton>
             </Tooltip>

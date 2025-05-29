@@ -213,6 +213,10 @@ export default function components(theme) {
         root: {
           textTransform: 'none',
           boxShadow: 'none',
+          borderRadius: '8px',
+          '&:hover': {
+            boxShadow: 'none'
+          }
         },
         text: {
           padding: '5px 15px',
@@ -299,6 +303,14 @@ export default function components(theme) {
             color: 'white',
           },
         },
+        contained: {
+          padding: '10px 24px',
+          fontSize: '1rem',
+          lineHeight: '1.5',
+          '&:hover': {
+            boxShadow: '0 3px 6px rgba(0,0,0,0.20)'
+          }
+        }
       },
     },
     MuiCardHeader: {
@@ -315,10 +327,16 @@ export default function components(theme) {
       styleOverrides: {
         root: {
           width: '100%',
-          padding: '15px',
+          padding: '24px',
           backgroundImage: 'none',
-        },
-      },
+          boxShadow: '0 3px 6px rgba(0,0,0,0.16)',
+          borderRadius: '16px',
+          '&:hover': {
+            boxShadow: '0 6px 12px rgba(0,0,0,0.20)',
+            transition: 'all 0.3s ease-in-out'
+          }
+        }
+      }
     },
     MuiCardContent: {
       styleOverrides: {

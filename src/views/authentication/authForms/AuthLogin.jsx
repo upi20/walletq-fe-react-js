@@ -1,27 +1,35 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, IconButton, InputAdornment, Stack, Typography } from '@mui/material';
-import { IconEye, IconEyeOff } from '@tabler/icons-react';
+import {
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  InputAdornment,
+  Stack,
+  useTheme,
+  Alert,
+  Zoom,
+  Link,
+  Divider,
+} from '@mui/material';
+import { IconEye, IconEyeOff, IconMail, IconLock, IconArrowRight } from '@tabler/icons-react';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
-import CustomFormLabel from '../../../components/forms/theme-elements/CustomFormLabel';
 import { useAuth } from '../../../hook/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 const validationSchema = Yup.object({
-  email: Yup.string()
-    .email('Format email tidak valid')
-    .required('Email wajib diisi'),
-  password: Yup.string()
-    .min(8, 'Password minimal 8 karakter')
-    .required('Password wajib diisi'),
+  email: Yup.string().email('Format email tidak valid').required('Email wajib diisi'),
+  password: Yup.string().required('Password wajib diisi'),
 });
 
-const AuthLogin = ({ title, subtitle, subtext }) => {
-  const navigate = useNavigate();
-  const { login } = useAuth();
+const AuthLogin = () => {
+  const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -29,111 +37,289 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      setLoading(true);
-      try {
-        await login(values.email, values.password);
-        navigate('/');
-      } catch (error) {
-        console.error('Login failed:', error);
-        const message = error.response?.data?.message || 'Terjadi kesalahan pada server';
-        formik.setErrors({ submit: message });
-      } finally {
-        setLoading(false);
+      if (formik.isValid) {
+        setLoading(true);
+        try {
+          await login(values.email, values.password);
+          // Redirect akan ditangani oleh useAuth hook
+        } catch (error) {
+          console.error('Login failed:', error);
+          const message = error.response?.data?.message || 'Email atau password salah';
+          formik.setErrors({ submit: message });
+        } finally {
+          setLoading(false);
+        }
       }
-    }
+    },
   });
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
   return (
-    <>
-      {title && (
-        <Typography fontWeight="700" variant="h3" mb={1}>
-          {title}
-        </Typography>
-      )}
+    <Box
+      sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: `linear-gradient(135deg, ${theme.palette.primary.lighter} 0%, ${theme.palette.background.default} 100%)`,
+        p: { xs: 2, sm: 4 },
+      }}
+    >
+      <Zoom in={true}>
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: '400px',
+            backgroundColor: 'background.paper',
+            borderRadius: '16px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Top Gradient Bar */}
+          <Box
+            sx={{
+              height: 4,
+              background: (theme) => `linear-gradient(90deg, 
+                ${theme.palette.primary.main}, 
+                ${theme.palette.primary.dark}
+              )`,
+            }}
+          />
 
-      {subtext}
-
-      <form onSubmit={formik.handleSubmit}>
-        <Stack spacing={3}>
-          <Box>
-            <CustomFormLabel htmlFor="email">Email</CustomFormLabel>
-            <CustomTextField
-              id="email"
-              name="email"
-              variant="outlined"
-              fullWidth
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-              type="email"
-              autoComplete="email"
-            />
-          </Box>
-
-          <Box>
-            <CustomFormLabel htmlFor="password">Password</CustomFormLabel>
-            <CustomTextField
-              id="password"
-              name="password"
-              type={showPassword ? 'text' : 'password'}
-              variant="outlined"
-              fullWidth
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-              autoComplete="current-password"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <IconEyeOff size="20" /> : <IconEye size="20" />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
+          <Box sx={{ px: 3, py: 4 }}>
+            {/* Logo */}
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                mb: 3,
               }}
-            />
-          </Box>
+            >
+              <img
+                src="/src/assets/logo-landscape-dark.png"
+                alt="WalletQ Logo"
+                style={{ height: '28px' }}
+              />
+            </Box>
 
-          {formik.errors.submit && (
-            <Box>
-              <Typography color="error" sx={{ mt: 2 }}>
-                {formik.errors.submit}
+            {/* Welcome Text */}
+            <Box sx={{ mb: 3, textAlign: 'center' }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: 700,
+                  mb: 1,
+                  background: (theme) => `linear-gradient(90deg, 
+                    ${theme.palette.primary.main}, 
+                    ${theme.palette.primary.dark}
+                  )`,
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                Welcome Back! 👋
+              </Typography>
+              <Typography variant="body2" color="textSecondary" sx={{ fontWeight: 500 }}>
+                Masuk untuk melanjutkan ke Dashboard Anda
               </Typography>
             </Box>
-          )}
 
-          <Button
-            color="primary"
-            variant="contained"
-            size="large"
-            fullWidth
-            type="submit"
-            disabled={loading || !formik.isValid}
-          >
-            {loading ? 'Loading...' : 'Sign In'}
-          </Button>
-        </Stack>
-      </form>
+            {/* Form */}
+            <form onSubmit={formik.handleSubmit}>
+              <Stack spacing={2.5}>
+                {formik.errors.submit && (
+                  <Alert
+                    severity="error"
+                    variant="filled"
+                    sx={{
+                      borderRadius: 1,
+                      '& .MuiAlert-message': {
+                        fontWeight: 500,
+                      },
+                    }}
+                  >
+                    {formik.errors.submit}
+                  </Alert>
+                )}
 
-      {subtitle}
-    </>
+                <CustomTextField
+                  fullWidth
+                  id="email"
+                  name="email"
+                  placeholder="Email address"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <IconMail size={20} stroke={1.5} color={theme.palette.text.secondary} />
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 1,
+                      backgroundColor: 'grey.50',
+                      '&:hover': {
+                        backgroundColor: 'grey.100',
+                      },
+                      '&.Mui-focused': {
+                        backgroundColor: 'background.paper',
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderWidth: 2,
+                          borderColor: 'primary.main',
+                        },
+                      },
+                    },
+                  }}
+                />
+
+                <CustomTextField
+                  fullWidth
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.password && Boolean(formik.errors.password)}
+                  helperText={formik.touched.password && formik.errors.password}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <IconLock size={20} stroke={1.5} color={theme.palette.text.secondary} />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                          size="small"
+                          sx={{ color: 'text.secondary' }}
+                        >
+                          {showPassword ? (
+                            <IconEyeOff size={20} stroke={1.5} />
+                          ) : (
+                            <IconEye size={20} stroke={1.5} />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 1,
+                      backgroundColor: 'grey.50',
+                      '&:hover': {
+                        backgroundColor: 'grey.100',
+                      },
+                      '&.Mui-focused': {
+                        backgroundColor: 'background.paper',
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderWidth: 2,
+                          borderColor: 'primary.main',
+                        },
+                      },
+                    },
+                  }}
+                />
+
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Link
+                    component={RouterLink}
+                    to="/auth/forgot-password"
+                    underline="hover"
+                    variant="body2"
+                    color="primary"
+                    sx={{
+                      fontWeight: 500,
+                      fontSize: '0.875rem',
+                    }}
+                  >
+                    Lupa password?
+                  </Link>
+                </Box>
+
+                <Button
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  disabled={loading}
+                  sx={{
+                    py: 1.5,
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                    borderRadius: 1,
+                    textTransform: 'none',
+                    boxShadow: 'none',
+                    '&:hover': {
+                      boxShadow: 'none',
+                    },
+                    background: (theme) => `linear-gradient(90deg, 
+                      ${theme.palette.primary.main}, 
+                      ${theme.palette.primary.dark}
+                    )`,
+                  }}
+                  endIcon={loading ? null : <IconArrowRight size={20} />}
+                >
+                  {loading ? 'Loading...' : 'Masuk ke Dashboard'}
+                </Button>
+
+                <Box sx={{ mt: 2 }}>
+                  <Divider>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: 'text.secondary',
+                        px: 2,
+                        fontWeight: 500,
+                        fontSize: '0.875rem',
+                      }}
+                    >
+                      Belum punya akun?
+                    </Typography>
+                  </Divider>
+                </Box>
+
+                <Button
+                  component={RouterLink}
+                  to="/auth/register"
+                  fullWidth
+                  size="large"
+                  variant="outlined"
+                  sx={{
+                    py: 1.5,
+                    borderWidth: 1.5,
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                    borderRadius: 1,
+                    textTransform: 'none',
+                    borderColor: theme.palette.primary.main,
+                    '&:hover': {
+                      borderWidth: 1.5,
+                      backgroundColor: 'grey.50',
+                    },
+                  }}
+                >
+                  Daftar Sekarang
+                </Button>
+              </Stack>
+            </form>
+          </Box>
+        </Box>
+      </Zoom>
+    </Box>
   );
 };
 

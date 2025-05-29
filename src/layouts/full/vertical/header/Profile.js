@@ -10,21 +10,34 @@ import ProfileImg from 'src/assets/images/profile/user-1.jpg';
 import unlimitedImg from 'src/assets/images/backgrounds/unlimited-bg.png';
 import Scrollbar from 'src/components/custom-scroll/Scrollbar';
 import { useAuth } from '../../../../hook/useAuth';
+import LogoutConfirmDialog from '../../../../components/dialogs/LogoutConfirmDialog';
 
 const Profile = () => {
   const { logout } = useAuth();
   const [anchorEl2, setAnchorEl2] = useState(null);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
   };
+
   const handleClose2 = () => {
     setAnchorEl2(null);
+  };
+
+  const handleLogoutClick = () => {
+    setShowLogoutDialog(true);
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutDialog(false);
   };
 
   const handleLogout = async () => {
     try {
       await logout();
       handleClose2();
+      setShowLogoutDialog(false);
     } catch (error) {
       console.error('Logout failed:', error);
     }
@@ -165,15 +178,19 @@ const Profile = () => {
                   </Box>
                   <img src={unlimitedImg} alt="unlimited" className="signup-bg"></img>
                 </Box>
-              </Box>
-              <Button
+              </Box>              <Button
                 variant="outlined"
                 color="primary"
-                onClick={handleLogout}
+                onClick={handleLogoutClick}
                 fullWidth
               >
                 Logout
               </Button>
+              <LogoutConfirmDialog
+                open={showLogoutDialog}
+                onClose={handleLogoutCancel}
+                onConfirm={handleLogout}
+              />
             </Box>
           </Box>
         </Scrollbar>

@@ -273,7 +273,7 @@ const AuthLogin = () => {
                   }}
                   endIcon={loading ? null : <IconArrowRight size={20} />}
                 >
-                  {loading ? 'Loading...' : 'Masuk ke Dashboard'}
+                  {loading ? 'Loading...' : 'Login'}
                 </Button>
 
                 <Box sx={{ mt: 2 }}>

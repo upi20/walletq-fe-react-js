@@ -36,10 +36,10 @@ export const Profile = () => {
           </Box>
           <Box sx={{ ml: 'auto' }}>
             <Tooltip title="Logout" placement="top">
-              <IconButton 
-                color="primary" 
-                onClick={handleLogout} 
-                aria-label="logout" 
+              <IconButton
+                color="primary"
+                onClick={handleLogout}
+                aria-label="logout"
                 size="small"
               >
                 <IconPower size="20" />

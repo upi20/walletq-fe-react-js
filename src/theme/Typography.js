@@ -4,11 +4,11 @@ const typography = {
     fontWeight: 700,
     fontSize: '2.25rem',
     lineHeight: 1.2,
-    letterSpacing: '-0.01em' 
+    letterSpacing: '-0.01em'
   },
   h2: {
     fontWeight: 700,
-    fontSize: '1.875rem', 
+    fontSize: '1.875rem',
     lineHeight: 1.2,
     letterSpacing: '-0.01em'
   },

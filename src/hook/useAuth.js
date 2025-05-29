@@ -5,7 +5,7 @@ const TOKEN_KEY = 'token';
 
 export const useAuth = () => {
     const navigate = useNavigate();
-    
+
     const getToken = () => localStorage.getItem(TOKEN_KEY);
 
     const setToken = (token) => {
